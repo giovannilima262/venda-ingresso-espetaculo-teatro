@@ -7,4 +7,7 @@ export class User extends BaseEntity {
 
   @Column({ name: "firebase_code", unique: true })
   firebaseCode: String;
+
+  @Column({ name: "type" })
+  type: String;
 }

@@ -1,6 +1,6 @@
 import express from 'express';
 import * as bodyParser from 'body-parser';
-import * as userController from './controller/user_controller';
+import * as userController from './controller/user.controller';
 import { connect } from './db/db';
 
 connect();
