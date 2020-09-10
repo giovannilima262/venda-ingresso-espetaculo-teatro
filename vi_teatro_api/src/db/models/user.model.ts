@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {BaseEntity, Column, Entity, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Client} from "./client.model";
 
 @Entity("app_user")
 export class User extends BaseEntity {
@@ -10,4 +11,7 @@ export class User extends BaseEntity {
 
   @Column({ name: "type" })
   type: String;
+
+  @OneToOne(type => Client, client => client.user)
+  client: Client;
 }
