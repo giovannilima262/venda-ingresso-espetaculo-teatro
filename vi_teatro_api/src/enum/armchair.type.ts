@@ -1,3 +1,3 @@
 enum ArmchairType {
-  // TODO add types
+    // TODO add types
 }

@@ -1,24 +1,18 @@
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-  OneToMany,
-  ManyToOne,
-} from "typeorm";
-import { Show } from "./show.model";
+import {BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn,} from "typeorm";
+import {Show} from "./show.model";
+import {Address} from "./address.model";
 
 @Entity("localite")
 export class Localite extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column({ name: "name" })
-  name: String;
+    @Column({name: "name"})
+    name: String;
 
-  //@ManyToOne(type => Address, address => address.localite)
-  //address: Address;
+    @ManyToOne(type => Address, address => address.localites)
+    address: Address;
 
-  @OneToMany((type) => Show, (show) => show.localite)
-  shows: Show[];
+    @OneToMany((type) => Show, (show) => show.localite)
+    shows: Show[];
 }

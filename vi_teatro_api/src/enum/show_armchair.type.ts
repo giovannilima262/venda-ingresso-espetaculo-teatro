@@ -1,4 +1,4 @@
 enum ShowArmchairType {
-  BUSY = "BUSY",
-  VAGUE = "VAGUE",
+    BUSY = "BUSY",
+    VAGUE = "VAGUE",
 }

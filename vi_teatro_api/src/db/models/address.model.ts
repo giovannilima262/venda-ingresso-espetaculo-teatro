@@ -1,23 +1,27 @@
 import {BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {Client} from "./client.model";
+import {Localite} from "./localite.model";
 
 @Entity("address")
 export class Address extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ name: "cep" })
+    @Column({name: "cep"})
     cep: string;
 
-    @Column({ name: "neighborhood" })
+    @Column({name: "neighborhood"})
     neighborhood: string;
 
-    @Column({ name: "city" })
+    @Column({name: "city"})
     city: string;
 
-    @Column({ name: "state" })
+    @Column({name: "state"})
     state: string;
 
     @OneToMany(type => Client, client => client.address)
     clients: Client[];
+
+    @OneToMany(type => Localite, localite => localite.address)
+    localites: Localite[];
 }

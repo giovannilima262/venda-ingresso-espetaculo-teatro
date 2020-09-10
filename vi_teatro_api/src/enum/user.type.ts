@@ -1,4 +1,4 @@
 enum UserType {
-  MANAGER = "MANAGER",
-  CLIENT = "CLIENT",
+    MANAGER = "MANAGER",
+    CLIENT = "CLIENT",
 }
