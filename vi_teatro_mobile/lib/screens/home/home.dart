@@ -65,7 +65,7 @@ class _HomeState extends State<Home> {
                     clientHttp: widget.httpClient,
                     user: UserModel(
                       firebaseCode: 'teste',
-                      type: UserEnum.MANAGEMENT,
+                      type: UserEnum.MANAGER,
                     ),
                   ),
                 ),

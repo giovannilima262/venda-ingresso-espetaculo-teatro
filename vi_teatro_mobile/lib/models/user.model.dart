@@ -1,6 +1,6 @@
 import 'package:enum_to_string/enum_to_string.dart';
 
-enum UserEnum { CLIENT, MANAGEMENT }
+enum UserEnum { CLIENT, MANAGER }
 
 class UserModel {
   UserModel({
