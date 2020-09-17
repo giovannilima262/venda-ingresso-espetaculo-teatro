@@ -1,0 +1,21 @@
+{
+  "name": "vi_teatro_api",
+  "version": "1.0.0",
+  "description": "Api",
+  "author": "Ewerton e Giovanni",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/body-parser": "^1.16.8",
+    "@types/express": "^4.11.1",
+    "@types/node": "^9.6.5",
+    "typescript": "^3.3.3333"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "pg": "^8.3.3",
+    "typeorm": "^0.2.0"
+  },
+  "scripts": {
+    "start": "tsc && node dist/index.js"
+  }
+}
