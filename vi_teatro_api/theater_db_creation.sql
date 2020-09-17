@@ -11,7 +11,6 @@ DROP TABLE IF EXISTS address CASCADE;
 CREATE TABLE app_user
 (
     id            SERIAL PRIMARY KEY,
-    firebase_code VARCHAR(255) UNIQUE,
     name          VARCHAR(255),
     email         VARCHAR(255) UNIQUE,
     password      VARCHAR(255),
