@@ -20,7 +20,7 @@ CREATE TABLE app_user
 CREATE TABLE theater_show
 (
     id              SERIAL PRIMARY KEY,
-    user_id         INTEGER,
+    user_id         INTEGER NOT NULL,
     localite_id     INTEGER,
     create_at       TIMESTAMP,
     end_at          TIMESTAMP,
@@ -84,7 +84,9 @@ CREATE TABLE address
     cep          VARCHAR(8),
     neighborhood VARCHAR(255),
     city         VARCHAR(255),
-    state        VARCHAR(255)
+    state        VARCHAR(255),
+    number         VARCHAR(255),
+    streetName        VARCHAR(255)
 );
 
 ALTER TABLE theater_show
@@ -141,3 +143,16 @@ ALTER TABLE purchase
     ADD CONSTRAINT client_id_fk
         FOREIGN KEY (client_id)
             REFERENCES client (id);
+
+CREATE OR REPLACE FUNCTION create_ticket_for_showarmchair() RETURNS TRIGGER AS $emp_audit$
+    BEGIN
+        INSERT INTO ticket(type, status, show_armchair_id) VALUES('COMMON', 'VAGUE', NEW.id);
+        RETURN NEW;
+    END;
+$emp_audit$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trg_create_ticket_for_showarmchair ON show_armchair;
+
+CREATE TRIGGER trg_create_ticket_for_showarmchair AFTER INSERT
+    ON show_armchair
+    FOR EACH ROW EXECUTE PROCEDURE create_ticket_for_showarmchair();
