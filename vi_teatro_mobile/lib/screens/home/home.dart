@@ -22,33 +22,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  getValuesStatus(EnumResponse statusFetching) {
-    switch (statusFetching) {
-      case EnumResponse.error:
-        return {
-          'text': 'Algo deu errado',
-          'color': Colors.red,
-        };
-        break;
-      case EnumResponse.success:
-        return {
-          'text': 'Sucesso',
-          'color': Colors.green,
-        };
-        break;
-      default:
-    }
-    return {
-      'text': 'Testar',
-      'color': Colors.blue,
-    };
-  }
-
   final _formKey = GlobalKey<FormState>();
   final scaffoldKey = new GlobalKey<ScaffoldState>();
   final user = UserModel();
@@ -58,7 +31,6 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(
       builder: (context, provider, child) {
-        dynamic status = getValuesStatus(provider.statusFetching);
         return Scaffold(
           key: scaffoldKey,
           appBar: AppBar(
@@ -67,96 +39,92 @@ class _HomeState extends State<Home> {
               DemoLocalizations.of(context).appName,
             ),
           ),
-          body: Column(
-            children: <Widget>[
-              Form(
-                key: _formKey,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 24.0, right: 24.0),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 24),
-                        child: Text(
-                          "VI Theater",
+          body: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Form(
+                  key: _formKey,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 24.0, right: 24.0),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 24),
+                          child: Text(
+                            "VI Theater",
+                            style: TextStyle(
+                              fontSize: 36,
+                              fontWeight: FontWeight.w100,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          "Teatrão mo filho",
                           style: TextStyle(
-                            fontSize: 36,
-                            fontWeight: FontWeight.w100,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
-                      ),
-                      Text(
-                        "Teatrão mo filho",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 26, bottom: 24),
-                        child: Text(
-                          "Cadastrar-se",
-                          style: TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.w500,
+                        Padding(
+                          padding: const EdgeInsets.only(top: 26, bottom: 24),
+                          child: Text(
+                            "Cadastrar-se",
+                            style: TextStyle(
+                              fontSize: 32,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
-                      ),
-                      TextFormField(
-                        decoration: InputDecoration(hintText: "Nome"),
-                        validator: (value) => value.isEmpty ? "O nome é obrigatório" : null,
-                        onSaved: (name) => user.name = name,
-                      ),
-                      TextFormField(
-                        decoration: InputDecoration(hintText: "Email"),
-                        validator: (value) => value.isEmpty ? "O email é obrigatório" : null,
-                        onSaved: (email) => user.email = email,
-                      ),
-                      TextFormField(
-                        decoration: InputDecoration(hintText: "Senha"),
-                        validator: (value) => value.isEmpty ? "O senha é obrigatório" : null,
-                        onSaved: (password) => user.password = password,
-                      ),
-                      Row(
-                        children: [
-                          Text("Cliente"),
-                          Switch(
-                            value: isManager,
-                            onChanged: (_) => {
-                              setState(() => isManager = !isManager),
-                            },
-                          ),
-                          Text("Gerente"),
-                        ],
-                      ),
-                      RaisedButton(
-                        onPressed: () => onSignUpClicked(provider),
-                        child: Text("Cadastrar"),
-                      ),
-                      Text("Ja tem uma conta?"),
-                      GestureDetector(
-                        onTap: () => print("tocou"),
-                        child: Text(
-                          "Acessar",
-                          style: TextStyle(
-                            decoration: TextDecoration.underline,
+                        TextFormField(
+                          decoration: InputDecoration(hintText: "Nome"),
+                          validator: (value) =>
+                              value.isEmpty ? "O nome é obrigatório" : null,
+                          onSaved: (name) => user.name = name,
+                        ),
+                        TextFormField(
+                          decoration: InputDecoration(hintText: "Email"),
+                          validator: (value) =>
+                              value.isEmpty ? "O email é obrigatório" : null,
+                          onSaved: (email) => user.email = email,
+                        ),
+                        TextFormField(
+                          decoration: InputDecoration(hintText: "Senha"),
+                          validator: (value) =>
+                              value.isEmpty ? "O senha é obrigatório" : null,
+                          onSaved: (password) => user.password = password,
+                        ),
+                        Row(
+                          children: [
+                            Text("Cliente"),
+                            Switch(
+                              value: isManager,
+                              onChanged: (_) {
+                                setState(() => isManager = !isManager);
+                              },
+                            ),
+                            Text("Gerente"),
+                          ],
+                        ),
+                        RaisedButton(
+                          onPressed: () => onSignUpClicked(provider),
+                          child: Text("Cadastrar"),
+                        ),
+                        Text("Ja tem uma conta?"),
+                        GestureDetector(
+                          onTap: () => print("tocou"),
+                          child: Text(
+                            "Acessar",
+                            style: TextStyle(
+                              decoration: TextDecoration.underline,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Row(
-                children: <Widget>[
-                  Text('Status: '),
-                  Text(
-                    status['text'],
-                    style: TextStyle(color: status['color']),
-                  )
-                ],
-              )
-            ],
+              ],
+            ),
           ),
         );
       },
@@ -164,17 +132,15 @@ class _HomeState extends State<Home> {
   }
 
   onSignUpClicked(UserProvider provider) {
-    return {
-      if (_formKey.currentState.validate())
-        {
-          _formKey.currentState.save(),
-          user.type = isManager ? UserEnum.MANAGER : UserEnum.CLIENT,
-          user.firebaseCode = Random.secure().nextDouble().toStringAsPrecision(10),
-          provider.addUser(
-            clientHttp: widget.httpClient,
-            user: user,
-          ),
-        },
-    };
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      user.type = isManager ? UserEnum.MANAGER : UserEnum.CLIENT;
+      user.firebaseCode = Random.secure().nextDouble().toStringAsPrecision(10);
+      provider.addUser(
+        context: context,
+        clientHttp: widget.httpClient,
+        user: user,
+      );
+    }
   }
 }
