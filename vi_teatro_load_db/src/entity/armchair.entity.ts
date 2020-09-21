@@ -1,20 +1,21 @@
 import {
-  BaseEntity,
-  Column,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
+    BaseEntity,
+    Column,
+    Entity,
+    OneToOne,
+    PrimaryGeneratedColumn,
 } from "typeorm";
-import { ShowArmchair } from "./show_armchair.entity";
+import {ShowArmchair} from "./show_armchair.entity";
+import {ArmchairType} from "../enum/armchair.type";
 
 @Entity("armchair")
 export class Armchair extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column({ name: "type", type: "varchar" })
-  type: ArmchairType;
+    @Column({name: "type", type: "enum", enum: ArmchairType})
+    type: ArmchairType;
 
-  @OneToMany((type) => ShowArmchair, (showArmchair) => showArmchair.armchair)
-  showArmchair: ShowArmchair[];
+    @OneToOne((type) => ShowArmchair, (showArmchair) => showArmchair.armchair)
+    showArmchair: ShowArmchair;
 }

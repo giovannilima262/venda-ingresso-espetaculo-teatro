@@ -17,9 +17,9 @@ export class Localite extends BaseEntity {
   @Column({ name: "name" })
   name: String;
 
-  @ManyToOne((type) => Address, (address) => address.localites)
+  @ManyToOne((type) => Address, (address) => address.localites, {cascade: true})
   address: Address;
 
-  @OneToMany((type) => Show, (show) => show.localite)
+  @OneToMany((type) => Show, (show) => show.localite, {cascade: true, onDelete:"CASCADE"})
   shows: Show[];
 }

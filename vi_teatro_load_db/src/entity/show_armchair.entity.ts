@@ -1,7 +1,8 @@
-import {BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn,} from "typeorm";
+import {BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn,} from "typeorm";
 import {Show} from "./show.entity";
 import {Armchair} from "./armchair.entity";
 import {Ticket} from "./ticket.entity";
+import {ShowArmchairStatus} from "../enum/show_armchair.status";
 
 @Entity("show_armchair")
 export class ShowArmchair extends BaseEntity {
@@ -14,8 +15,8 @@ export class ShowArmchair extends BaseEntity {
     @Column({name: "number", type: "varchar"})
     number: String;
 
-    @Column({name: "status", type: "text"})
-    status: ShowArmchairType;
+    @Column({name: "status", type: "enum", enum: ShowArmchairStatus})
+    status: ShowArmchairStatus;
 
     @Column({name: "price", type: "varchar"})
     price: String;
@@ -23,9 +24,10 @@ export class ShowArmchair extends BaseEntity {
     @ManyToOne((type) => Show, (show) => show.showArmchair)
     show: Show;
 
-    @ManyToOne((type) => Armchair, (armchair) => armchair.showArmchair)
+    @OneToOne((type) => Armchair, (armchair) => armchair.showArmchair, {cascade: true, onDelete:"CASCADE"})
+    @JoinColumn()
     armchair: Armchair;
 
-    @OneToMany(type => Ticket, ticket => ticket.showArmchair)
-    tickets: Ticket[]
+    @OneToOne(type => Ticket, ticket => ticket.showArmchair)
+    ticket: Ticket
 }

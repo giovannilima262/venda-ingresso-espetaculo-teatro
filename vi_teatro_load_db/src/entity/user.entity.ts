@@ -24,14 +24,12 @@ export class User extends BaseEntity {
     @Column({name: "password", type: "varchar"})
     password: String;
 
-    @Column({
-        name: "type", type: "enum", enum: UserType
-    })
+    @Column({name: "type", type: "enum", enum: UserType})
     type: UserType;
 
     @OneToOne((type) => Client, (client) => client.user)
     client: Client;
 
-    @OneToMany((type) => Show, (show) => show.user)
+    @OneToMany((type) => Show, (show) => show.user, {cascade: true, onDelete: "CASCADE"})
     shows: Show[];
 }

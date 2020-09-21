@@ -20,12 +20,12 @@ export class Show extends BaseEntity {
     @Column({name: "prepare_minutes"})
     prepareMinutes: number;
 
-    @ManyToOne((type) => User, (user) => user.shows)
+    @ManyToOne((type) => User, (user) => user.shows, {nullable: true})
     user: User;
 
     @ManyToOne((type) => Localite, (localite) => localite.shows)
     localite: Localite;
 
-    @OneToMany((type) => ShowArmchair, (showArmchair) => showArmchair.show)
+    @OneToMany((type) => ShowArmchair, (showArmchair) => showArmchair.show, {cascade: true, onDelete:"CASCADE"})
     showArmchair: ShowArmchair[];
 }

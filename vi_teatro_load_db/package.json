@@ -13,9 +13,10 @@
   "dependencies": {
     "body-parser": "^1.18.2",
     "pg": "^8.3.3",
-    "typeorm": "^0.2.0"
+    "typeorm": "^0.2.0",
+    "unique-names-generator": "^4.3.1"
   },
   "scripts": {
-    "start": "tsc && node dist/index.js"
+    "start": "tsc && node --max-old-space-size=4096 dist/index.js"
   }
 }

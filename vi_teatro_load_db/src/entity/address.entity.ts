@@ -25,6 +25,12 @@ export class Address extends BaseEntity {
   @Column({ name: "state" })
   state: string;
 
+  @Column({name: "number"})
+  number: string
+
+  @Column({name: "streetName"})
+  streetName: string
+
   @OneToMany((type) => Client, (client) => client.address)
   clients: Client[];
 

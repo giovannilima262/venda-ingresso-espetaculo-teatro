@@ -22,19 +22,19 @@ export class Client extends BaseEntity {
   @Column({ name: "cpf", unique: true })
   cpf: string;
 
-  @Column({ name: "type", type: "enum", enum: ClientType })
+  @Column({ name: "type", type: "enum", enum: ClientType, nullable: true })
   type: ClientType;
 
-  @OneToOne((type) => User, (user) => user.client, {cascade: true})
+  @OneToOne((type) => User, (user) => user.client, {cascade: true, onDelete: "CASCADE"})
   @JoinColumn()
   user: User;
 
-  @ManyToOne((type) => Address, (address) => address.clients, {cascade: true})
+  @ManyToOne((type) => Address, (address) => address.clients, {cascade: true, onDelete: "CASCADE"})
   address: Address;
 
   @OneToMany((type) => Purchase, (purchase) => purchase.client)
   purchases: Purchase[];
 
-  @OneToMany((type) => Ticket, (ticket) => ticket.client)
+  @OneToMany((type) => Ticket, (ticket) => ticket.client, )
   tickets: Ticket[];
 }

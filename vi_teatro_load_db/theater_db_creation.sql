@@ -143,16 +143,46 @@ ALTER TABLE purchase
     ADD CONSTRAINT client_id_fk
         FOREIGN KEY (client_id)
             REFERENCES client (id);
-
-CREATE OR REPLACE FUNCTION create_ticket_for_showarmchair() RETURNS TRIGGER AS $emp_audit$
+--------------------------
+CREATE OR REPLACE FUNCTION create_ticket_for_showarmchair() RETURNS TRIGGER AS $create_ticket$
     BEGIN
         INSERT INTO ticket(type, status, show_armchair_id) VALUES('COMMON', 'VAGUE', NEW.id);
         RETURN NEW;
     END;
-$emp_audit$ LANGUAGE plpgsql;
+$create_ticket$ LANGUAGE plpgsql;
 
 DROP TRIGGER IF EXISTS trg_create_ticket_for_showarmchair ON show_armchair;
 
 CREATE TRIGGER trg_create_ticket_for_showarmchair AFTER INSERT
     ON show_armchair
     FOR EACH ROW EXECUTE PROCEDURE create_ticket_for_showarmchair();
+--------------------------
+CREATE OR REPLACE FUNCTION update_purchase() RETURNS TRIGGER AS $update_purchase$
+BEGIN
+        IF (NEW.status = 'COMPLETED') THEN
+            UPDATE ticket t SET type = 'PAYED' WHERE t.purchase_id = NEW.id;
+            RETURN NEW;
+        END IF;
+END;
+$update_purchase$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trg_update_purchase ON purchase;
+
+CREATE TRIGGER trg_update_purchase AFTER update
+    ON purchase
+    FOR EACH ROW EXECUTE PROCEDURE update_purchase();
+--------------------------
+CREATE OR REPLACE FUNCTION update_ticket() RETURNS TRIGGER AS $update_ticket$
+BEGIN
+        IF (NEW.status = 'WITHDRAWN') THEN
+            UPDATE show_armchair sa SET status = 'BUSY' WHERE sa.id = NEW.show_armchair_id;
+            RETURN NEW;
+        END IF;
+END;
+$update_ticket$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trg_update_ticket ON ticket;
+
+CREATE TRIGGER trg_update_ticket AFTER update
+    ON ticket
+    FOR EACH ROW EXECUTE PROCEDURE update_ticket();

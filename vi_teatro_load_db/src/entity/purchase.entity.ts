@@ -8,13 +8,14 @@ import {
 } from "typeorm";
 import { Client } from "./client.entity";
 import { Ticket } from "./ticket.entity";
+import {PurchaseStatus} from "../enum/purchase.status";
 
 @Entity("purchase")
 export class Purchase extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: "type", type: "varchar" })
+  @Column({ name: "type", type: "enum", enum:PurchaseStatus })
   status: PurchaseStatus;
 
   @ManyToOne((type) => Client, (client) => client.purchases)
