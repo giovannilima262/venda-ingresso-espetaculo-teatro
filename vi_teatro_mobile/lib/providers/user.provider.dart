@@ -14,11 +14,50 @@ class UserProvider extends ChangeNotifier {
   UnmodifiableListView<UserModel> get items => UnmodifiableListView(_items);
 
   EnumResponse get statusFetching => _statusFetching;
+  set statusFetching(value) => _statusFetching = value;
 
-  void addUser({http.Client clientHttp, UserModel user}) {
+  void addUser({
+    context,
+    http.Client clientHttp,
+    UserModel user,
+  }) {
     userApi.addUser(clientHttp: clientHttp, user: user).then((data) {
       _statusFetching = data.status;
+      if (_statusFetching != null) {
+        print(_statusFetching);
+        String text = _getValuesStatus()["text"];
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: Text("Mensagem"),
+            content: Text(text),
+          ),
+        );
+        _statusFetching = null;
+      }
       notifyListeners();
     });
+  }
+
+  _getValuesStatus() {
+    switch (_statusFetching) {
+      case EnumResponse.error:
+        return {
+          'text': 'Já Registrado',
+          'color': Colors.red,
+        };
+        break;
+      case EnumResponse.success:
+        return {
+          'text': 'Registrado com sucesso',
+          'color': Colors.green,
+        };
+        break;
+      default:
+    }
+    return {
+      'text': '',
+      'color': Colors.blue,
+    };
   }
 }
